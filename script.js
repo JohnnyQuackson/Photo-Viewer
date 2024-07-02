@@ -5,54 +5,45 @@ const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
 const randomButton = document.getElementById('random');
 
-prevButton.addEventListener('click', showPreviousPhoto);
-nextButton.addEventListener('click', showNextPhoto);
-randomButton.addEventListener('click', showRandomPhoto);
+prevButton.addEventListener('click', () => {
+    animateSwipe('right');
+    setTimeout(showPreviousPhoto, 500);
+});
 
-// Add touch event listeners for swipe gestures
-let touchStartX = 0;
-let touchEndX = 0;
+nextButton.addEventListener('click', () => {
+    animateSwipe('left');
+    setTimeout(showNextPhoto, 500);
+});
 
-photoElement.addEventListener('touchstart', handleTouchStart);
-photoElement.addEventListener('touchend', handleTouchEnd);
+randomButton.addEventListener('click', () => {
+    animateSwipe('random');
+    setTimeout(showRandomPhoto, 500);
+});
 
-function handleTouchStart(event) {
-    touchStartX = event.changedTouches[0].screenX;
-}
+photoElement.addEventListener('contextmenu', (event) => {
+    event.preventDefault(); // Disable right-click context menu on the image
+});
 
-function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].screenX;
-    handleSwipeGesture();
-}
-
-// Add mouse event listeners for swipe gestures
-let mouseStartX = 0;
-let mouseEndX = 0;
-
-photoElement.addEventListener('mousedown', handleMouseStart);
-photoElement.addEventListener('mouseup', handleMouseEnd);
-
-function handleMouseStart(event) {
-    mouseStartX = event.screenX;
-    document.addEventListener('mousemove', handleMouseMove);
-}
-
-function handleMouseEnd(event) {
-    mouseEndX = event.screenX;
-    document.removeEventListener('mousemove', handleMouseMove);
-    handleSwipeGesture();
-}
-
-function handleMouseMove(event) {
-    mouseEndX = event.screenX;
-}
-
-function handleSwipeGesture() {
-    if (touchEndX < touchStartX || mouseEndX < mouseStartX) {
-        showNextPhoto();
-    } else if (touchEndX > touchStartX || mouseEndX > mouseStartX) {
-        showPreviousPhoto();
+function animateSwipe(direction) {
+    photoElement.style.opacity = '0';
+    if (direction === 'left') {
+        photoElement.style.transform = 'translateX(-100%)';
+    } else if (direction === 'right') {
+        photoElement.style.transform = 'translateX(100%)';
+    } else {
+        const randomDirection = Math.random() > 0.5 ? 'translateX(-100%)' : 'translateX(100%)';
+        photoElement.style.transform = randomDirection;
     }
+    setTimeout(() => {
+        photoElement.style.transition = 'none';
+        photoElement.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
+        photoElement.style.opacity = '0';
+        setTimeout(() => {
+            photoElement.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+            photoElement.style.transform = 'translateX(0)';
+            photoElement.style.opacity = '1';
+        }, 20);
+    }, 500);
 }
 
 function showPreviousPhoto() {
