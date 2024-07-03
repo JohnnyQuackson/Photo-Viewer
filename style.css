@@ -1,3 +1,12 @@
+:root {
+    --background-color: linear-gradient(135deg, #0a3d62, #0fbcf9);
+    --text-color: #fff;
+    --button-bg: #3c6382;
+    --button-bg-hover: #4a69bd;
+    --container-bg: rgba(255, 255, 255, 0.2);
+    --photo-container-bg: rgba(255, 255, 255, 0.5);
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -5,21 +14,43 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0a3d62, #0fbcf9); /* Colors from the provided image */
-    color: #fff;
-    -webkit-user-select: none; /* Disable text selection */
+    background: var(--background-color);
+    color: var(--text-color);
+    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 ::selection {
     background: rgba(0, 0, 0, 0); /* Transparent selection color */
 }
 
+.theme-switcher {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.theme-switcher button {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: var(--button-bg);
+    color: var(--text-color);
+    transition: background 0.3s, transform 0.3s;
+}
+
+.theme-switcher button:hover {
+    background: var(--button-bg-hover);
+}
+
 .container {
     text-align: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--container-bg);
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -27,6 +58,7 @@ body {
     flex-direction: column;
     align-items: center;
     max-width: 100%;
+    transition: background 0.3s ease-in-out;
 }
 
 .photo-container {
@@ -39,8 +71,9 @@ body {
     align-items: center;
     margin-bottom: 20px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--photo-container-bg);
     border-radius: 20px;
+    transition: background 0.3s ease-in-out;
 }
 
 img {
@@ -68,11 +101,21 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    background: #3c6382; /* Lighter color for buttons */
-    color: #fff;
+    background: var(--button-bg);
+    color: var(--text-color);
     transition: background 0.3s, transform 0.3s;
 }
 
 button:hover {
-    background: #4a69bd; /* Even lighter color on hover */
+    background: var(--button-bg-hover);
+}
+
+/* Bright theme */
+body.bright-theme {
+    --background-color: linear-gradient(135deg, #ff6b6b, #feca57);
+    --text-color: #000;
+    --button-bg: #ff9f43;
+    --button-bg-hover: #ff793f;
+    --container-bg: rgba(255, 255, 255, 0.7);
+    --photo-container-bg: rgba(255, 255, 255, 0.9);
 }

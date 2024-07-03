@@ -3,7 +3,7 @@ let currentPhotoIndex = 0;
 const photoElement = document.getElementById('photo');
 const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
-const randomButton = document.getElementById('random');
+const themeToggleButton = document.getElementById('theme-toggle');
 
 prevButton.addEventListener('click', () => {
     animateSwipe('right');
@@ -15,9 +15,8 @@ nextButton.addEventListener('click', () => {
     setTimeout(showNextPhoto, 300);
 });
 
-randomButton.addEventListener('click', () => {
-    animateSwipe('random');
-    setTimeout(showRandomPhoto, 300);
+themeToggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('bright-theme');
 });
 
 photoElement.addEventListener('contextmenu', (event) => {
@@ -59,9 +58,6 @@ function animateSwipe(direction) {
         photoElement.style.transform = 'translateX(-100%)';
     } else if (direction === 'right') {
         photoElement.style.transform = 'translateX(100%)';
-    } else {
-        const randomDirection = Math.random() > 0.5 ? 'translateX(-100%)' : 'translateX(100%)';
-        photoElement.style.transform = randomDirection;
     }
     photoElement.style.opacity = '0';
     setTimeout(() => {
@@ -83,11 +79,6 @@ function showPreviousPhoto() {
 
 function showNextPhoto() {
     currentPhotoIndex = (currentPhotoIndex < photos.length - 1) ? currentPhotoIndex + 1 : 0;
-    updatePhoto();
-}
-
-function showRandomPhoto() {
-    currentPhotoIndex = Math.floor(Math.random() * photos.length);
     updatePhoto();
 }
 
