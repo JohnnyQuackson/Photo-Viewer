@@ -29,49 +29,28 @@ photoElement.addEventListener('touchstart', handleTouchStart, false);
 photoElement.addEventListener('touchmove', handleTouchMove, false);
 photoElement.addEventListener('touchend', handleTouchEnd, false);
 
-let xDown = null;
-let yDown = null;
-let xDiff = null;
-let yDiff = null;
+let startX = 0;
+let endX = 0;
 
 function handleTouchStart(evt) {
-    const firstTouch = (evt.touches || evt.originalEvent.touches)[0];
-    xDown = firstTouch.clientX;
-    yDown = firstTouch.clientY;
-    xDiff = 0;
-    yDiff = 0;
+    startX = evt.touches[0].clientX;
 }
 
 function handleTouchMove(evt) {
-    if (!xDown || !yDown) {
-        return;
-    }
-
-    const xUp = evt.touches[0].clientX;
-    const yUp = evt.touches[0].clientY;
-
-    xDiff = xDown - xUp;
-    yDiff = yDown - yUp;
+    endX = evt.touches[0].clientX;
 }
 
 function handleTouchEnd() {
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (Math.abs(xDiff) > 50) { // Ensure swipe distance is enough to be a swipe
-            if (xDiff > 0) {
-                // Swipe left
-                animateSwipe('left');
-                setTimeout(showNextPhoto, 300);
-            } else {
-                // Swipe right
-                animateSwipe('right');
-                setTimeout(showPreviousPhoto, 300);
-            }
-        }
+    const threshold = 50; // Minimum swipe distance to be considered a swipe
+    if (startX - endX > threshold) {
+        // Swipe left
+        animateSwipe('left');
+        setTimeout(showNextPhoto, 300);
+    } else if (endX - startX > threshold) {
+        // Swipe right
+        animateSwipe('right');
+        setTimeout(showPreviousPhoto, 300);
     }
-    xDown = null;
-    yDown = null;
-    xDiff = null;
-    yDiff = null;
 }
 
 function animateSwipe(direction) {
