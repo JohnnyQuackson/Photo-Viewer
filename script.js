@@ -7,17 +7,17 @@ const randomButton = document.getElementById('random');
 
 prevButton.addEventListener('click', () => {
     animateSwipe('right');
-    setTimeout(showPreviousPhoto, 500);
+    setTimeout(showPreviousPhoto, 300);
 });
 
 nextButton.addEventListener('click', () => {
     animateSwipe('left');
-    setTimeout(showNextPhoto, 500);
+    setTimeout(showNextPhoto, 300);
 });
 
 randomButton.addEventListener('click', () => {
     animateSwipe('random');
-    setTimeout(showRandomPhoto, 500);
+    setTimeout(showRandomPhoto, 300);
 });
 
 photoElement.addEventListener('contextmenu', (event) => {
@@ -27,38 +27,55 @@ photoElement.addEventListener('contextmenu', (event) => {
 // Touch event listeners
 photoElement.addEventListener('touchstart', handleTouchStart, false);
 photoElement.addEventListener('touchmove', handleTouchMove, false);
+photoElement.addEventListener('touchend', handleTouchEnd, false);
 
 let xDown = null;
+let yDown = null;
+let xDiff = null;
+let yDiff = null;
 
 function handleTouchStart(evt) {
     const firstTouch = (evt.touches || evt.originalEvent.touches)[0];
     xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+    xDiff = 0;
+    yDiff = 0;
 }
 
 function handleTouchMove(evt) {
-    if (!xDown) {
+    if (!xDown || !yDown) {
         return;
     }
 
-    let xUp = evt.touches[0].clientX;
-    let xDiff = xDown - xUp;
+    const xUp = evt.touches[0].clientX;
+    const yUp = evt.touches[0].clientY;
 
-    if (Math.abs(xDiff) > 50) { // Ensure swipe distance is enough to be a swipe
-        if (xDiff > 0) {
-            // Swipe left
-            animateSwipe('left');
-            setTimeout(showNextPhoto, 500);
-        } else {
-            // Swipe right
-            animateSwipe('right');
-            setTimeout(showPreviousPhoto, 500);
+    xDiff = xDown - xUp;
+    yDiff = yDown - yUp;
+}
+
+function handleTouchEnd() {
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        if (Math.abs(xDiff) > 50) { // Ensure swipe distance is enough to be a swipe
+            if (xDiff > 0) {
+                // Swipe left
+                animateSwipe('left');
+                setTimeout(showNextPhoto, 300);
+            } else {
+                // Swipe right
+                animateSwipe('right');
+                setTimeout(showPreviousPhoto, 300);
+            }
         }
-        xDown = null; // Reset xDown
     }
+    xDown = null;
+    yDown = null;
+    xDiff = null;
+    yDiff = null;
 }
 
 function animateSwipe(direction) {
-    photoElement.style.opacity = '0';
+    photoElement.style.transition = 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out';
     if (direction === 'left') {
         photoElement.style.transform = 'translateX(-100%)';
     } else if (direction === 'right') {
@@ -67,16 +84,17 @@ function animateSwipe(direction) {
         const randomDirection = Math.random() > 0.5 ? 'translateX(-100%)' : 'translateX(100%)';
         photoElement.style.transform = randomDirection;
     }
+    photoElement.style.opacity = '0';
     setTimeout(() => {
         photoElement.style.transition = 'none';
         photoElement.style.transform = direction === 'left' ? 'translateX(100%)' : 'translateX(-100%)';
         photoElement.style.opacity = '0';
         setTimeout(() => {
-            photoElement.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+            photoElement.style.transition = 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out';
             photoElement.style.transform = 'translateX(0)';
             photoElement.style.opacity = '1';
         }, 20);
-    }, 500);
+    }, 300);
 }
 
 function showPreviousPhoto() {

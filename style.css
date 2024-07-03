@@ -49,7 +49,7 @@ img {
     display: block;
     margin: 0 auto;
     border-radius: 20px;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     -webkit-user-drag: none; /* Disable image dragging */
     user-drag: none;
     pointer-events: none; /* Disable interaction (right-click) */
