@@ -24,6 +24,39 @@ photoElement.addEventListener('contextmenu', (event) => {
     event.preventDefault(); // Disable right-click context menu on the image
 });
 
+// Touch event listeners
+photoElement.addEventListener('touchstart', handleTouchStart, false);
+photoElement.addEventListener('touchmove', handleTouchMove, false);
+
+let xDown = null;
+
+function handleTouchStart(evt) {
+    const firstTouch = (evt.touches || evt.originalEvent.touches)[0];
+    xDown = firstTouch.clientX;
+}
+
+function handleTouchMove(evt) {
+    if (!xDown) {
+        return;
+    }
+
+    let xUp = evt.touches[0].clientX;
+    let xDiff = xDown - xUp;
+
+    if (Math.abs(xDiff) > 50) { // Ensure swipe distance is enough to be a swipe
+        if (xDiff > 0) {
+            // Swipe left
+            animateSwipe('left');
+            setTimeout(showNextPhoto, 500);
+        } else {
+            // Swipe right
+            animateSwipe('right');
+            setTimeout(showPreviousPhoto, 500);
+        }
+        xDown = null; // Reset xDown
+    }
+}
+
 function animateSwipe(direction) {
     photoElement.style.opacity = '0';
     if (direction === 'left') {
