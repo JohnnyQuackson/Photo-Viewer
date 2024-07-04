@@ -55,6 +55,8 @@ body {
     height: 30px;
     cursor: pointer;
     transition: transform 0.3s, filter 0.3s;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .top-bar img:hover {
