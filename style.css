@@ -50,6 +50,17 @@ body {
     background: var(--button-bg-hover);
 }
 
+.top-bar img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.top-bar img:hover {
+    transform: scale(1.1);
+}
+
 .container {
     text-align: center;
     background: var(--container-bg);
@@ -118,3 +129,5 @@ body.bright-theme {
     --container-bg: rgba(255, 255, 255, 0.7);
     --photo-container-bg: rgba(255, 255, 255, 0.9);
 }
+
+

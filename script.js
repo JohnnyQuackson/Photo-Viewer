@@ -3,7 +3,7 @@ let currentPhotoIndex = 0;
 const photoElement = document.getElementById('photo');
 const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
-const themeToggleButton = document.getElementById('theme-toggle');
+const themeToggle = document.getElementById('theme-toggle');
 
 prevButton.addEventListener('click', () => {
     animateSwipe('right');
@@ -15,8 +15,14 @@ nextButton.addEventListener('click', () => {
     setTimeout(showNextPhoto, 300);
 });
 
-themeToggleButton.addEventListener('click', () => {
+// Handle theme toggle
+themeToggle.addEventListener('click', function() {
     document.body.classList.toggle('bright-theme');
+    if (document.body.classList.contains('bright-theme')) {
+        themeToggle.src = 'images/sun.png';
+    } else {
+        themeToggle.src = 'images/moon.png';
+    }
 });
 
 // Touch event listeners

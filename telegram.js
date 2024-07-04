@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const telegram = window.Telegram.WebApp;
     const userIdButton = document.getElementById('user-id-button');
-    
-    if (telegram && telegram.initDataUnsafe) {
-        const user = telegram.initDataUnsafe.user;
+    const telegram = window.Telegram.WebApp;
 
-        if (user) {
-            userIdButton.textContent = `ID: ${user.id}`;
-        } else {
-            userIdButton.textContent = 'User data is not available.';
-        }
+    telegram.ready();  // Initialize the Telegram Web App
+
+    if (telegram.initDataUnsafe && telegram.initDataUnsafe.user) {
+        const user = telegram.initDataUnsafe.user;
+        userIdButton.textContent = `ID: ${user.id}`;
     } else {
-        userIdButton.textContent = 'Telegram WebApp is not initialized.';
+        userIdButton.textContent = 'User data is not available.';
     }
 });
