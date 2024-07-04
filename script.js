@@ -19,10 +19,6 @@ themeToggleButton.addEventListener('click', () => {
     document.body.classList.toggle('bright-theme');
 });
 
-photoElement.addEventListener('contextmenu', (event) => {
-    event.preventDefault(); // Disable right-click context menu on the image
-});
-
 // Touch event listeners
 photoElement.addEventListener('touchstart', handleTouchStart, false);
 photoElement.addEventListener('touchmove', handleTouchMove, false);
