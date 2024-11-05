@@ -95,6 +95,8 @@ body {
 }
 
 img {
+    pointer-events: none; 
+
     max-width: 90%;
     max-height: 90%;
     display: block;
